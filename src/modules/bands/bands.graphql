@@ -1,0 +1,14 @@
+type Member {
+  artist: String
+  instrument: String
+  years: [String]
+}
+
+type Band {
+  id: ID!
+  name: String
+  origin: String
+  members: [Member]
+  website: String
+  genres: [Genre]
+}
