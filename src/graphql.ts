@@ -7,6 +7,24 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export interface ArtistInput {
+    firstName?: Nullable<string>;
+    secondName?: Nullable<string>;
+    middleName?: Nullable<string>;
+    birthDate?: Nullable<string>;
+    birthPlace?: Nullable<string>;
+    country?: Nullable<string>;
+    bands?: Nullable<Nullable<number>[]>;
+    instruments?: Nullable<Nullable<string>[]>;
+}
+
+export interface UserRegister {
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
+    password?: Nullable<string>;
+    email: string;
+}
+
 export interface Album {
     id: string;
     name?: Nullable<string>;
@@ -20,6 +38,8 @@ export interface Album {
 
 export interface IQuery {
     albums(): Nullable<Nullable<Album>[]> | Promise<Nullable<Nullable<Album>[]>>;
+    artist(id: string): Nullable<Artist> | Promise<Nullable<Artist>>;
+    artists(): Nullable<Nullable<Artist>[]> | Promise<Nullable<Nullable<Artist>[]>>;
 }
 
 export interface Artist {
@@ -31,7 +51,14 @@ export interface Artist {
     birthPlace?: Nullable<string>;
     country?: Nullable<string>;
     bands?: Nullable<Nullable<Band>[]>;
-    instruments?: Nullable<string>;
+    instruments?: Nullable<Nullable<string>[]>;
+}
+
+export interface IMutation {
+    createArtists(body?: Nullable<ArtistInput>): Nullable<Artist> | Promise<Nullable<Artist>>;
+    deleteArtist(id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+    updateArtist(body?: Nullable<ArtistInput>): Nullable<Artist> | Promise<Nullable<Artist>>;
+    register(body?: Nullable<UserRegister>): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface Member {
@@ -79,7 +106,7 @@ export interface Track {
 export interface User {
     id: string;
     firstName?: Nullable<string>;
-    secondName?: Nullable<string>;
+    lastName?: Nullable<string>;
     password?: Nullable<string>;
     email: string;
 }

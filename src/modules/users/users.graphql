@@ -1,7 +1,18 @@
 type User {
   id: ID!
   firstName: String
-  secondName: String
+  lastName: String
   password: String
   email: String!
+}
+
+input UserRegister {
+  firstName: String
+  lastName: String
+  password: String
+  email: String!
+}
+
+type Mutation {
+  register(body: UserRegister): User
 }

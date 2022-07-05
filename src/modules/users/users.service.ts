@@ -1,14 +1,15 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { map } from "rxjs";
+import { UserRegister } from "src/graphql";
 
 @Injectable()
-export class AlbumsService {
+export class UsersService {
   constructor(private httpService: HttpService) {}
 
-  findAll() {
+  register(body: UserRegister) {
     return this.httpService
-      .get(process.env.ALBUMS_API)
-      .pipe(map(({data}) => data.items));
+      .post(`${process.env.USERS_API}/register`, body)
+      .pipe(map(({data}) => data));
   }
 }
