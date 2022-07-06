@@ -12,3 +12,11 @@ type Band {
   website: String
   genres: [Genre]
 }
+
+type Query {
+  band(id: ID!): Band
+}
+
+type Query {
+  bands: [Band]
+}

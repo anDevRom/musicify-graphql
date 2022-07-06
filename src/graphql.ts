@@ -40,8 +40,12 @@ export interface IQuery {
     albums(): Nullable<Nullable<Album>[]> | Promise<Nullable<Nullable<Album>[]>>;
     artist(id: string): Nullable<Artist> | Promise<Nullable<Artist>>;
     artists(): Nullable<Nullable<Artist>[]> | Promise<Nullable<Nullable<Artist>[]>>;
+    band(id: string): Nullable<Band> | Promise<Nullable<Band>>;
+    bands(): Nullable<Nullable<Band>[]> | Promise<Nullable<Nullable<Band>[]>>;
     genre(id: string): Nullable<Genre> | Promise<Nullable<Genre>>;
     genres(): Nullable<Nullable<Genre>[]> | Promise<Nullable<Nullable<Genre>[]>>;
+    track(id: string): Nullable<Track> | Promise<Nullable<Track>>;
+    tracks(): Nullable<Nullable<Track>[]> | Promise<Nullable<Nullable<Track>[]>>;
 }
 
 export interface Artist {
@@ -98,7 +102,8 @@ export interface Genre {
 export interface Track {
     id: string;
     title: string;
-    albums?: Nullable<Nullable<Album>[]>;
+    album?: Nullable<Album>;
+    artists?: Nullable<Nullable<Artist>[]>;
     bands?: Nullable<Nullable<Band>[]>;
     duration?: Nullable<number>;
     released?: Nullable<number>;
