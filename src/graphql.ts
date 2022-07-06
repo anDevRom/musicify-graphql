@@ -40,6 +40,8 @@ export interface IQuery {
     albums(): Nullable<Nullable<Album>[]> | Promise<Nullable<Nullable<Album>[]>>;
     artist(id: string): Nullable<Artist> | Promise<Nullable<Artist>>;
     artists(): Nullable<Nullable<Artist>[]> | Promise<Nullable<Nullable<Artist>[]>>;
+    genre(id: string): Nullable<Genre> | Promise<Nullable<Genre>>;
+    genres(): Nullable<Nullable<Genre>[]> | Promise<Nullable<Nullable<Genre>[]>>;
 }
 
 export interface Artist {

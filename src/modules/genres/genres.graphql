@@ -5,3 +5,11 @@ type Genre {
   country: String
   year: Int
 }
+
+type Query {
+  genre(id: ID!): Genre
+}
+
+type Query {
+  genres: [Genre]
+}
