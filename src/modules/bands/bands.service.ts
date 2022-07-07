@@ -1,22 +1,36 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
-import { map } from "rxjs";
+import { lastValueFrom, map } from "rxjs";
+import { Band, BandsCollection, Genre } from "src/graphql";
+import { modifyCollectionEntitiesIds, modifyEntityId } from "src/utils";
+import { GenresService } from "../genres/genres.service";
 
 @Injectable()
 export class BandsService {
   constructor(
-    private httpService: HttpService
+    private httpService: HttpService,
+    private genresService: GenresService
   ) {}
 
-  findOne(id: string) {
-    return this.httpService
+  async findOne(id: string): Promise<Band> {
+    const band = this.httpService
       .get(`${process.env.BANDS_API}/${id}`)
-      .pipe(map(({ data }) => data));
+      .pipe(map(({ data }) => modifyEntityId<Band>(data)));
+
+    return await lastValueFrom(band);  
   }
 
-  findAll() {
-    return this.httpService
+  async findAll(): Promise<BandsCollection> {
+    const bands = this.httpService
       .get(process.env.BANDS_API)
-      .pipe(map(({ data }) => data.items));
+      .pipe(map(({ data }) => modifyCollectionEntitiesIds<Band>(data)));
+
+    return await lastValueFrom(bands);  
+  }
+
+  async getGenres(ids: string[]): Promise<Genre[]> {
+    return await Promise.all(
+      ids.map(id => this.genresService.findOne(id))
+    );
   }
 }

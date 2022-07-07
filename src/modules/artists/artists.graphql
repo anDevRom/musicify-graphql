@@ -1,3 +1,10 @@
+type ArtistsCollection {
+  items: [Artist]!
+  limit: Int!
+  offset: Int!
+  total: Int!
+}
+
 type Artist {
   id: ID!
   firstName: String
@@ -17,26 +24,17 @@ input ArtistInput {
   birthDate: String
   birthPlace: String
   country: String
-  bands: [Int]
+  bandsIds: [String]
   instruments: [String]
 }
 
 type Query {
   artist(id: ID!): Artist
-}
-
-type Query {
-  artists: [Artist]
+  artists: ArtistsCollection
 }
 
 type Mutation {
   createArtists(body: ArtistInput): Artist
-}
-
-type Mutation {
   deleteArtist(id: ID!): Boolean
-}
-
-type Mutation {
   updateArtist(body: ArtistInput): Artist
 }

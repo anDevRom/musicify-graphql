@@ -1,7 +1,17 @@
 type Member {
-  artist: String
+  id: ID!
+  firstName: String
+  secondName: String
+  middleName: String
   instrument: String
   years: [String]
+}
+
+type BandsCollection {
+  items: [Band]!
+  limit: Int!
+  offset: Int!
+  total: Int!
 }
 
 type Band {
@@ -13,10 +23,15 @@ type Band {
   genres: [Genre]
 }
 
-type Query {
-  band(id: ID!): Band
+type BandInput {
+  name: String
+  origin: String
+  membersIds: [String]
+  website: String
+  genresIds: [String]
 }
 
 type Query {
-  bands: [Band]
+  band(id: ID!): Band
+  bands: BandsCollection
 }

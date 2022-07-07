@@ -1,3 +1,10 @@
+type GenresCollection {
+  items: [Genre]!
+  limit: Int!
+  offset: Int!
+  total: Int!
+}
+
 type Genre {
   id: ID!
   name: String
@@ -6,10 +13,14 @@ type Genre {
   year: Int
 }
 
-type Query {
-  genre(id: ID!): Genre
+input GenreInput {
+  name: String
+  description: String
+  country: String
+  year: Int
 }
 
 type Query {
-  genres: [Genre]
+  genre(id: ID!): Genre
+  genres: GenresCollection
 }

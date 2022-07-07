@@ -1,3 +1,10 @@
+type TracksCollection {
+  items: [Track]!
+  limit: Int!
+  offset: Int!
+  total: Int!
+}
+
 type Track {
   id: ID!
   title: String!
@@ -9,11 +16,18 @@ type Track {
   genres: [Genre]
 }
 
-type Query {
-  track(id: ID!): Track
+input TrackInput {
+  title: String
+  albumId: String
+  artistsIds: [String]
+  bandsIds: [String]
+  duration: Int
+  released: Int
+  genresIds: [String]
 }
 
 type Query {
-  tracks: [Track]
+  track(id: ID!): Track
+  tracks: TracksCollection
 }
 

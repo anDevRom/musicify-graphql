@@ -7,6 +7,16 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export interface AlbumInput {
+    name?: Nullable<string>;
+    released?: Nullable<number>;
+    artistsIds?: Nullable<Nullable<string>[]>;
+    bandsIds?: Nullable<Nullable<string>[]>;
+    trackIds?: Nullable<Nullable<string>[]>;
+    genresIds?: Nullable<Nullable<string>[]>;
+    image?: Nullable<string>;
+}
+
 export interface ArtistInput {
     firstName?: Nullable<string>;
     secondName?: Nullable<string>;
@@ -14,8 +24,25 @@ export interface ArtistInput {
     birthDate?: Nullable<string>;
     birthPlace?: Nullable<string>;
     country?: Nullable<string>;
-    bands?: Nullable<Nullable<number>[]>;
+    bandsIds?: Nullable<Nullable<string>[]>;
     instruments?: Nullable<Nullable<string>[]>;
+}
+
+export interface GenreInput {
+    name?: Nullable<string>;
+    description?: Nullable<string>;
+    country?: Nullable<string>;
+    year?: Nullable<number>;
+}
+
+export interface TrackInput {
+    title?: Nullable<string>;
+    albumId?: Nullable<string>;
+    artistsIds?: Nullable<Nullable<string>[]>;
+    bandsIds?: Nullable<Nullable<string>[]>;
+    duration?: Nullable<number>;
+    released?: Nullable<number>;
+    genresIds?: Nullable<Nullable<string>[]>;
 }
 
 export interface UserRegister {
@@ -23,6 +50,13 @@ export interface UserRegister {
     lastName?: Nullable<string>;
     password?: Nullable<string>;
     email: string;
+}
+
+export interface AlbumsCollection {
+    items: Nullable<Album>[];
+    limit: number;
+    offset: number;
+    total: number;
 }
 
 export interface Album {
@@ -37,15 +71,23 @@ export interface Album {
 }
 
 export interface IQuery {
-    albums(): Nullable<Nullable<Album>[]> | Promise<Nullable<Nullable<Album>[]>>;
+    album(id: string): Nullable<Album> | Promise<Nullable<Album>>;
+    albums(): Nullable<AlbumsCollection> | Promise<Nullable<AlbumsCollection>>;
     artist(id: string): Nullable<Artist> | Promise<Nullable<Artist>>;
-    artists(): Nullable<Nullable<Artist>[]> | Promise<Nullable<Nullable<Artist>[]>>;
+    artists(): Nullable<ArtistsCollection> | Promise<Nullable<ArtistsCollection>>;
     band(id: string): Nullable<Band> | Promise<Nullable<Band>>;
-    bands(): Nullable<Nullable<Band>[]> | Promise<Nullable<Nullable<Band>[]>>;
+    bands(): Nullable<BandsCollection> | Promise<Nullable<BandsCollection>>;
     genre(id: string): Nullable<Genre> | Promise<Nullable<Genre>>;
-    genres(): Nullable<Nullable<Genre>[]> | Promise<Nullable<Nullable<Genre>[]>>;
+    genres(): Nullable<GenresCollection> | Promise<Nullable<GenresCollection>>;
     track(id: string): Nullable<Track> | Promise<Nullable<Track>>;
-    tracks(): Nullable<Nullable<Track>[]> | Promise<Nullable<Nullable<Track>[]>>;
+    tracks(): Nullable<TracksCollection> | Promise<Nullable<TracksCollection>>;
+}
+
+export interface ArtistsCollection {
+    items: Nullable<Artist>[];
+    limit: number;
+    offset: number;
+    total: number;
 }
 
 export interface Artist {
@@ -68,9 +110,19 @@ export interface IMutation {
 }
 
 export interface Member {
-    artist?: Nullable<string>;
+    id: string;
+    firstName?: Nullable<string>;
+    secondName?: Nullable<string>;
+    middleName?: Nullable<string>;
     instrument?: Nullable<string>;
     years?: Nullable<Nullable<string>[]>;
+}
+
+export interface BandsCollection {
+    items: Nullable<Band>[];
+    limit: number;
+    offset: number;
+    total: number;
 }
 
 export interface Band {
@@ -82,6 +134,14 @@ export interface Band {
     genres?: Nullable<Nullable<Genre>[]>;
 }
 
+export interface BandInput {
+    name?: Nullable<string>;
+    origin?: Nullable<string>;
+    membersIds?: Nullable<Nullable<string>[]>;
+    website?: Nullable<string>;
+    genresIds?: Nullable<Nullable<string>[]>;
+}
+
 export interface Favourites {
     id: string;
     userId?: Nullable<string>;
@@ -91,12 +151,26 @@ export interface Favourites {
     tracks?: Nullable<Nullable<Track>[]>;
 }
 
+export interface GenresCollection {
+    items: Nullable<Genre>[];
+    limit: number;
+    offset: number;
+    total: number;
+}
+
 export interface Genre {
     id: string;
     name?: Nullable<string>;
     description?: Nullable<string>;
     country?: Nullable<string>;
     year?: Nullable<number>;
+}
+
+export interface TracksCollection {
+    items: Nullable<Track>[];
+    limit: number;
+    offset: number;
+    total: number;
 }
 
 export interface Track {

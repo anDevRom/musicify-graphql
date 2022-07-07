@@ -1,7 +1,8 @@
-import { Args, Query, Resolver } from "@nestjs/graphql";
+import { Args, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { BandInput } from "src/graphql";
 import { BandsService } from "./bands.service";
 
-@Resolver('Bands')
+@Resolver('Band')
 export class BandsResolver {
   constructor(
     private bandsService: BandsService
@@ -15,5 +16,10 @@ export class BandsResolver {
   @Query()
   async bands() {
     return this.bandsService.findAll();
+  }
+
+  @ResolveField()
+  async genres(@Parent() band: BandInput) {
+    return this.bandsService.getGenres(band.genresIds);
   }
 }

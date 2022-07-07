@@ -5,7 +5,8 @@ import { GenresResolver } from "./genres.resolver";
 
 @Module({
   imports: [HttpModule],
-  providers: [GenresService, GenresResolver]
+  providers: [GenresService, GenresResolver],
+  exports: [GenresService]
 })
 export class GenresModule {}
 

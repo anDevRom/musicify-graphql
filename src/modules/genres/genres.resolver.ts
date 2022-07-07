@@ -1,7 +1,7 @@
 import { Args, Query, Resolver } from "@nestjs/graphql";
 import { GenresService } from "./genres.service";
 
-@Resolver('Genres')
+@Resolver('Genre')
 export class GenresResolver {
   constructor(
     private genresService: GenresService

@@ -1,10 +1,14 @@
 import { HttpModule } from "@nestjs/axios";
 import { Module } from "@nestjs/common";
+import { BandsModule } from "../bands/bands.module";
+import { GenresModule } from "../genres/genres.module";
+import { TracksModule } from "../tracks/tracks.module";
 import { AlbumsResolver } from "./albums.resolver";
 import { AlbumsService } from "./albums.service";
 
 @Module({
-  imports: [HttpModule],
-  providers: [AlbumsService, AlbumsResolver]
+  imports: [HttpModule, BandsModule, TracksModule, GenresModule],
+  providers: [AlbumsService, AlbumsResolver],
+  exports: [AlbumsService]
 })
 export class AlbumsModule {}
