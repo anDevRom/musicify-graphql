@@ -6,7 +6,7 @@ type User {
   email: String!
 }
 
-input UserRegister {
+input UserInput {
   firstName: String
   lastName: String
   password: String
@@ -14,5 +14,5 @@ input UserRegister {
 }
 
 type Mutation {
-  register(body: UserRegister): User
+  register(body: UserInput): User
 }

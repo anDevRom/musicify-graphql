@@ -1,4 +1,4 @@
-import { Args, Parent, Query, ResolveField } from "@nestjs/graphql";
+import { Args, Context, Mutation, Parent, Query, ResolveField } from "@nestjs/graphql";
 import { Resolver } from "@nestjs/graphql";
 import { AlbumInput } from "src/graphql";
 import { AlbumsService } from "./albums.service";
@@ -30,5 +30,20 @@ export class AlbumsResolver {
   @ResolveField()
   async tracks(@Parent() album: AlbumInput) {
     return this.albumsService.getTracks(album.trackIds);
+  }
+
+  @Mutation()
+  async createAlbum(@Args('body') body, @Context() context) {
+    return this.albumsService.create(body, context.token);
+  }
+
+  @Mutation()
+  async updateAlbum(@Args('id') id: string, @Args('body') body, @Context() context) {
+    return this.albumsService.update(id, body, context.token);
+  }
+
+  @Mutation()
+  async deleteAlbum(@Args('id') id: string, @Context() context) {
+    return this.albumsService.delete(id, context.token);
   }
 }

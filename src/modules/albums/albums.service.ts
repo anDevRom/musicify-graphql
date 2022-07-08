@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
-import { Album, AlbumsCollection, Band, Genre, Track } from "src/graphql";
+import { Album, AlbumInput, AlbumsCollection, Band, EntityDelete, Genre, Track } from "src/graphql";
 import { modifyCollectionEntitiesIds, modifyEntityId } from "src/utils";
 import { BandsService } from "../bands/bands.service";
 import { GenresService } from "../genres/genres.service";
@@ -48,5 +48,40 @@ export class AlbumsService {
     return await Promise.all(
       ids.map(id => this.tracksService.findOne(id))
     );
+  }
+
+  async create(body: AlbumInput, token: string): Promise<Album> {
+    const album = this.httpService
+      .post(
+        process.env.ALBUMS_API,
+        body,
+        { headers: {'Authorization': `Bearer ${token}`} }
+      )
+      .pipe(map(({ data }) => modifyEntityId<Album>(data)));
+
+    return await lastValueFrom(album);
+  }
+
+  async update(id: string, body: AlbumInput, token: string): Promise<Album> {
+    const album = this.httpService
+      .put(
+        `${process.env.ALBUMS_API}/${id}`,
+        body,
+        { headers: {'Authorization': `Bearer ${token}`} }
+      )
+      .pipe(map(({ data }) => modifyEntityId<Album>(data)));
+
+    return await lastValueFrom(album);
+  }
+
+  async delete(id: string, token: string): Promise<EntityDelete> {
+    const result = this.httpService
+      .delete(
+        `${process.env.ALBUMS_API}/${id}`,
+        { headers: {'Authorization': `Bearer ${token}`} }
+      )
+      .pipe(map(({ data }) => data));
+
+    return await lastValueFrom(result);  
   }
 }

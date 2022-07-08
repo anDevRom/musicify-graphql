@@ -30,3 +30,9 @@ type Query {
   album(id: ID!): Album
   albums: AlbumsCollection
 }
+
+type Mutation {
+  createAlbum(body: AlbumInput): Album
+  updateAlbum(id: ID!, body: AlbumInput): Album
+  deleteAlbum(id: ID!): EntityDelete
+}

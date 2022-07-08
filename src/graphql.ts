@@ -45,11 +45,16 @@ export interface TrackInput {
     genresIds?: Nullable<Nullable<string>[]>;
 }
 
-export interface UserRegister {
+export interface UserInput {
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
     password?: Nullable<string>;
     email: string;
+}
+
+export interface EntityDelete {
+    acknowledged?: Nullable<boolean>;
+    deletedCount?: Nullable<number>;
 }
 
 export interface AlbumsCollection {
@@ -83,6 +88,16 @@ export interface IQuery {
     tracks(): Nullable<TracksCollection> | Promise<Nullable<TracksCollection>>;
 }
 
+export interface IMutation {
+    createAlbum(body?: Nullable<AlbumInput>): Nullable<Album> | Promise<Nullable<Album>>;
+    updateAlbum(id: string, body?: Nullable<AlbumInput>): Nullable<Album> | Promise<Nullable<Album>>;
+    deleteAlbum(id: string): Nullable<EntityDelete> | Promise<Nullable<EntityDelete>>;
+    createArtists(body?: Nullable<ArtistInput>): Nullable<Artist> | Promise<Nullable<Artist>>;
+    deleteArtist(id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+    updateArtist(body?: Nullable<ArtistInput>): Nullable<Artist> | Promise<Nullable<Artist>>;
+    register(body?: Nullable<UserInput>): Nullable<User> | Promise<Nullable<User>>;
+}
+
 export interface ArtistsCollection {
     items: Nullable<Artist>[];
     limit: number;
@@ -100,13 +115,6 @@ export interface Artist {
     country?: Nullable<string>;
     bands?: Nullable<Nullable<Band>[]>;
     instruments?: Nullable<Nullable<string>[]>;
-}
-
-export interface IMutation {
-    createArtists(body?: Nullable<ArtistInput>): Nullable<Artist> | Promise<Nullable<Artist>>;
-    deleteArtist(id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
-    updateArtist(body?: Nullable<ArtistInput>): Nullable<Artist> | Promise<Nullable<Artist>>;
-    register(body?: Nullable<UserRegister>): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface Member {

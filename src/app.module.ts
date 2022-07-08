@@ -20,6 +20,11 @@ import { BandsModule } from "./modules/bands/bands.module";
       typePaths: ['./**/*.graphql'],
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
+      },
+      context: ({req}) => {
+        const token = req.headers.authorization;
+
+        return { token };
       }
     }),
     UsersModule,
