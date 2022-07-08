@@ -21,3 +21,11 @@ export const modifyCollectionEntitiesIds = <T extends object>(collection: {
     items: collection.items.map((entity) => modifyEntityId(entity))
   };
 };
+
+export const createAxiosConfigWithToken = (token: string) => {
+  return {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  };
+};

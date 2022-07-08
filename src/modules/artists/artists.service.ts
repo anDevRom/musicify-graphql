@@ -1,8 +1,8 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
-import { Artist, ArtistsCollection, Band } from "src/graphql";
-import { modifyCollectionEntitiesIds, modifyEntityId } from "src/utils";
+import { Artist, ArtistInput, ArtistsCollection, Band, EntityDelete } from "src/graphql";
+import { modifyCollectionEntitiesIds, modifyEntityId, createAxiosConfigWithToken } from "src/utils";
 import { BandsService } from "../bands/bands.service";
 
 @Injectable()
@@ -32,5 +32,40 @@ export class ArtistsService {
     return await Promise.all(
       ids.map(id => this.bandsService.findOne(id))
     );
+  }
+
+  async create(body: ArtistInput, token: string): Promise<Artist> {
+    const artist = this.httpService
+      .post(
+        process.env.ARTISTS_API,
+        body,
+        createAxiosConfigWithToken(token)
+      )
+      .pipe(map(({ data }) => modifyEntityId<Artist>(data)));
+
+    return await lastValueFrom(artist);
+  }
+
+  async update(id: string, body: ArtistInput, token: string): Promise<Artist> {
+    const artist = this.httpService
+      .put(
+        `${process.env.ARTISTS_API}/${id}`,
+        body,
+        createAxiosConfigWithToken(token)
+      )
+      .pipe(map(({ data }) => modifyEntityId<Artist>(data)));
+
+    return await lastValueFrom(artist);
+  }
+
+  async delete(id: string, token: string): Promise<EntityDelete> {
+    const result = this.httpService
+      .delete(
+        `${process.env.ARTISTS_API}/${id}`,
+        createAxiosConfigWithToken(token)
+      )
+      .pipe(map(({ data }) => data));
+
+    return await lastValueFrom(result);  
   }
 }

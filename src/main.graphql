@@ -2,3 +2,7 @@ type EntityDelete {
   acknowledged: Boolean,
   deletedCount: Int
 }
+
+type TokenContext {
+  token: String
+}

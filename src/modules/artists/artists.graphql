@@ -34,7 +34,7 @@ type Query {
 }
 
 type Mutation {
-  createArtists(body: ArtistInput): Artist
-  deleteArtist(id: ID!): Boolean
+  createArtist(body: ArtistInput): Artist
   updateArtist(body: ArtistInput): Artist
+  deleteArtist(id: ID!): EntityDelete
 }

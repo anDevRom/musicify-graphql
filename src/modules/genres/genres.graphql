@@ -24,3 +24,9 @@ type Query {
   genre(id: ID!): Genre
   genres: GenresCollection
 }
+
+type Mutation {
+  createGenre(body: GenreInput): Genre
+  updateGenre(id: ID!, body: GenreInput): Genre
+  deleteGenre(id: ID!): EntityDelete
+}

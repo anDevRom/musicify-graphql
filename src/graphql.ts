@@ -28,6 +28,14 @@ export interface ArtistInput {
     instruments?: Nullable<Nullable<string>[]>;
 }
 
+export interface BandInput {
+    name?: Nullable<string>;
+    origin?: Nullable<string>;
+    membersIds?: Nullable<Nullable<string>[]>;
+    website?: Nullable<string>;
+    genresIds?: Nullable<Nullable<string>[]>;
+}
+
 export interface GenreInput {
     name?: Nullable<string>;
     description?: Nullable<string>;
@@ -55,6 +63,10 @@ export interface UserInput {
 export interface EntityDelete {
     acknowledged?: Nullable<boolean>;
     deletedCount?: Nullable<number>;
+}
+
+export interface TokenContext {
+    token?: Nullable<string>;
 }
 
 export interface AlbumsCollection {
@@ -92,9 +104,18 @@ export interface IMutation {
     createAlbum(body?: Nullable<AlbumInput>): Nullable<Album> | Promise<Nullable<Album>>;
     updateAlbum(id: string, body?: Nullable<AlbumInput>): Nullable<Album> | Promise<Nullable<Album>>;
     deleteAlbum(id: string): Nullable<EntityDelete> | Promise<Nullable<EntityDelete>>;
-    createArtists(body?: Nullable<ArtistInput>): Nullable<Artist> | Promise<Nullable<Artist>>;
-    deleteArtist(id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+    createArtist(body?: Nullable<ArtistInput>): Nullable<Artist> | Promise<Nullable<Artist>>;
     updateArtist(body?: Nullable<ArtistInput>): Nullable<Artist> | Promise<Nullable<Artist>>;
+    deleteArtist(id: string): Nullable<EntityDelete> | Promise<Nullable<EntityDelete>>;
+    createBand(body?: Nullable<BandInput>): Nullable<Band> | Promise<Nullable<Band>>;
+    updateBand(id: string, body?: Nullable<BandInput>): Nullable<Band> | Promise<Nullable<Band>>;
+    deleteBand(id: string): Nullable<EntityDelete> | Promise<Nullable<EntityDelete>>;
+    createGenre(body?: Nullable<GenreInput>): Nullable<Genre> | Promise<Nullable<Genre>>;
+    updateGenre(id: string, body?: Nullable<GenreInput>): Nullable<Genre> | Promise<Nullable<Genre>>;
+    deleteGenre(id: string): Nullable<EntityDelete> | Promise<Nullable<EntityDelete>>;
+    createTrack(body?: Nullable<TrackInput>): Nullable<Track> | Promise<Nullable<Track>>;
+    updateTrack(id: string, body?: Nullable<TrackInput>): Nullable<Track> | Promise<Nullable<Track>>;
+    deleteTrack(id: string): Nullable<EntityDelete> | Promise<Nullable<EntityDelete>>;
     register(body?: Nullable<UserInput>): Nullable<User> | Promise<Nullable<User>>;
 }
 
@@ -140,14 +161,6 @@ export interface Band {
     members?: Nullable<Nullable<Member>[]>;
     website?: Nullable<string>;
     genres?: Nullable<Nullable<Genre>[]>;
-}
-
-export interface BandInput {
-    name?: Nullable<string>;
-    origin?: Nullable<string>;
-    membersIds?: Nullable<Nullable<string>[]>;
-    website?: Nullable<string>;
-    genresIds?: Nullable<Nullable<string>[]>;
 }
 
 export interface Favourites {

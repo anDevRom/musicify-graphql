@@ -23,7 +23,7 @@ type Band {
   genres: [Genre]
 }
 
-type BandInput {
+input BandInput {
   name: String
   origin: String
   membersIds: [String]
@@ -34,4 +34,10 @@ type BandInput {
 type Query {
   band(id: ID!): Band
   bands: BandsCollection
+}
+
+type Mutation {
+  createBand(body: BandInput): Band
+  updateBand(id: ID!, body: BandInput): Band
+  deleteBand(id: ID!): EntityDelete
 }

@@ -2,7 +2,7 @@ import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
 import { Album, AlbumInput, AlbumsCollection, Band, EntityDelete, Genre, Track } from "src/graphql";
-import { modifyCollectionEntitiesIds, modifyEntityId } from "src/utils";
+import { createAxiosConfigWithToken, modifyCollectionEntitiesIds, modifyEntityId } from "src/utils";
 import { BandsService } from "../bands/bands.service";
 import { GenresService } from "../genres/genres.service";
 import { TracksService } from "../tracks/tracks.service";
@@ -55,7 +55,7 @@ export class AlbumsService {
       .post(
         process.env.ALBUMS_API,
         body,
-        { headers: {'Authorization': `Bearer ${token}`} }
+        createAxiosConfigWithToken(token)
       )
       .pipe(map(({ data }) => modifyEntityId<Album>(data)));
 
@@ -67,7 +67,7 @@ export class AlbumsService {
       .put(
         `${process.env.ALBUMS_API}/${id}`,
         body,
-        { headers: {'Authorization': `Bearer ${token}`} }
+        createAxiosConfigWithToken(token)
       )
       .pipe(map(({ data }) => modifyEntityId<Album>(data)));
 
@@ -78,7 +78,7 @@ export class AlbumsService {
     const result = this.httpService
       .delete(
         `${process.env.ALBUMS_API}/${id}`,
-        { headers: {'Authorization': `Bearer ${token}`} }
+        createAxiosConfigWithToken(token)
       )
       .pipe(map(({ data }) => data));
 

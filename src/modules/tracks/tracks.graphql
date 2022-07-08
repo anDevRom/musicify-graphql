@@ -31,3 +31,9 @@ type Query {
   tracks: TracksCollection
 }
 
+type Mutation {
+  createTrack(body: TrackInput): Track
+  updateTrack(id: ID!, body: TrackInput): Track
+  deleteTrack(id: ID!): EntityDelete
+}
+
