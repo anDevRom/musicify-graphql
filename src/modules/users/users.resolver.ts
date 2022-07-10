@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver, Query } from "@nestjs/graphql";
+import { Args, Mutation, Resolver, Query, ResolveField, Parent } from "@nestjs/graphql";
 import { CredentialsInput, UserInput } from "src/graphql";
 import { UsersService } from "./users.service";
 
@@ -14,6 +14,11 @@ export class UsersResolver {
   @Query()
   async jwt(@Args('creds') creds: CredentialsInput) {
     return this.usersService.getJwt(creds);
+  }
+
+  @ResolveField()
+  id(@Parent() user: UserInput) {
+    return user._id;
   }
 
   @Mutation()

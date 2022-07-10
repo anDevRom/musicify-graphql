@@ -14,6 +14,21 @@ type Genre {
 }
 
 input GenreInput {
+  _id: ID!
+  name: String
+  description: String
+  country: String
+  year: Int
+}
+
+input CreateGenreInput {
+  name: String!
+  description: String
+  country: String
+  year: Int
+}
+
+input UpdateGenreInput {
   name: String
   description: String
   country: String
@@ -26,7 +41,7 @@ type Query {
 }
 
 type Mutation {
-  createGenre(body: GenreInput): Genre
-  updateGenre(id: ID!, body: GenreInput): Genre
+  createGenre(body: CreateGenreInput!): Genre
+  updateGenre(id: ID!, body: UpdateGenreInput!): Genre
   deleteGenre(id: ID!): EntityDelete
 }

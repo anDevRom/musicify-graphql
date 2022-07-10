@@ -1,8 +1,8 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
-import { Artist, Band, EntityDelete, Genre, Track, TrackInput, TracksCollection } from "src/graphql";
-import { modifyCollectionEntitiesIds, modifyEntityId, createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
+import { Artist, Band, CreateTrackInput, EntityDelete, Genre, Track, TrackInput, TracksCollection, UpdateTrackInput } from "src/graphql";
+import { createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
 import { ArtistsService } from "../artists/artists.service";
 import { BandsService } from "../bands/bands.service";
 import { GenresService } from "../genres/genres.service";
@@ -19,7 +19,7 @@ export class TracksService {
   async findOne(id: string): Promise<Track> {
     const track = this.httpService
       .get(`${process.env.TRACKS_API}/${id}`)
-      .pipe(map(({ data }) => modifyEntityId<Track>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(track);  
   }
@@ -27,7 +27,7 @@ export class TracksService {
   async findAll(limit: number, offset: number): Promise<TracksCollection> {
     const tracks = this.httpService
       .get(process.env.TRACKS_API + createPaginationQuery(limit, offset))
-      .pipe(map(({ data }) => modifyCollectionEntitiesIds<Track>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(tracks);  
   }
@@ -50,26 +50,26 @@ export class TracksService {
     );
   }
 
-  async create(body: TrackInput, token: string): Promise<Track> {
+  async create(body: CreateTrackInput, token: string): Promise<Track> {
     const track = this.httpService
       .post(
         process.env.TRACKS_API,
         body,
         createAxiosConfigWithToken(token)
       )
-      .pipe(map(({ data }) => modifyEntityId<Track>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(track);
   }
 
-  async update(id: string, body: TrackInput, token: string): Promise<Track> {
+  async update(id: string, body: UpdateTrackInput, token: string): Promise<Track> {
     const track = this.httpService
       .put(
         `${process.env.TRACKS_API}/${id}`,
         body,
         createAxiosConfigWithToken(token)
       )
-      .pipe(map(({ data }) => modifyEntityId<Track>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(track);
   }

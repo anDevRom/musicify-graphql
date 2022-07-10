@@ -18,6 +18,29 @@ type Artist {
 }
 
 input ArtistInput {
+  _id: String!
+  firstName: String
+  secondName: String
+  middleName: String
+  birthDate: String
+  birthPlace: String
+  country: String
+  bandsIds: [String]
+  instruments: [String]
+}
+
+input CreateArtistInput {
+  firstName: String!
+  secondName: String!
+  middleName: String
+  birthDate: String
+  birthPlace: String
+  country: String
+  bandsIds: [String]
+  instruments: [String]
+}
+
+input UpdateArtistInput {
   firstName: String
   secondName: String
   middleName: String
@@ -34,7 +57,7 @@ type Query {
 }
 
 type Mutation {
-  createArtist(body: ArtistInput): Artist
-  updateArtist(body: ArtistInput): Artist
+  createArtist(body: CreateArtistInput!): Artist
+  updateArtist(body: UpdateArtistInput!): Artist
   deleteArtist(id: ID!): EntityDelete
 }

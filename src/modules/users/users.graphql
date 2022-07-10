@@ -7,15 +7,16 @@ type User {
 }
 
 input UserInput {
-  firstName: String
-  lastName: String
-  password: String
+  _id: ID!
+  firstName: String!
+  lastName: String!
+  password: String!
   email: String!
 }
 
 input CredentialsInput {
-  email: String
-  password: String
+  email: String!
+  password: String!
 }
 
 type TokenJwt {
@@ -24,9 +25,9 @@ type TokenJwt {
 
 type Query {
   user(id: ID!): User
-  jwt(creds: CredentialsInput): TokenJwt
+  jwt(creds: CredentialsInput!): TokenJwt
 }
 
 type Mutation {
-  register(body: UserInput): User
+  register(body: UserInput!): User
 }

@@ -30,6 +30,23 @@ type Band {
 }
 
 input BandInput {
+  _id: ID!
+  name: String
+  origin: String
+  members: [MemberInput]
+  website: String
+  genresIds: [String]
+}
+
+input CreateBandInput {
+  name: String!
+  origin: String
+  members: [MemberInput]
+  website: String
+  genresIds: [String]
+}
+
+input UpdateBandInput {
   name: String
   origin: String
   members: [MemberInput]
@@ -43,7 +60,7 @@ type Query {
 }
 
 type Mutation {
-  createBand(body: BandInput): Band
-  updateBand(id: ID!, body: BandInput): Band
+  createBand(body: CreateBandInput!): Band
+  updateBand(id: ID!, body: UpdateBandInput!): Band
   deleteBand(id: ID!): EntityDelete
 }

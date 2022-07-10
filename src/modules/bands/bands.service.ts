@@ -1,8 +1,8 @@
 import { HttpService } from "@nestjs/axios";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
-import { Artist, Band, BandInput, BandsCollection, EntityDelete, Genre, Member, MemberInput } from "src/graphql";
-import { modifyCollectionEntitiesIds, modifyEntityId, createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
+import { Artist, Band, BandsCollection, CreateBandInput, EntityDelete, Genre, Member, MemberInput, UpdateBandInput } from "src/graphql";
+import { createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
 import { ArtistsService } from "../artists/artists.service";
 import { GenresService } from "../genres/genres.service";
 
@@ -18,7 +18,7 @@ export class BandsService {
   async findOne(id: string): Promise<Band> {
     const band = this.httpService
       .get(`${process.env.BANDS_API}/${id}`)
-      .pipe(map(({ data }) => modifyEntityId<Band>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(band);  
   }
@@ -26,7 +26,7 @@ export class BandsService {
   async findAll(limit: number, offset: number): Promise<BandsCollection> {
     const bands = this.httpService
       .get(process.env.BANDS_API + createPaginationQuery(limit, offset))
-      .pipe(map(({ data }) => modifyCollectionEntitiesIds<Band>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(bands);  
   }
@@ -56,26 +56,26 @@ export class BandsService {
     );
   }
 
-  async create(body: BandInput, token: string): Promise<Band> {
+  async create(body: CreateBandInput, token: string): Promise<Band> {
     const band = this.httpService
       .post(
         process.env.BANDS_API,
         body,
         createAxiosConfigWithToken(token)
       )
-      .pipe(map(({ data }) => modifyEntityId<Band>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(band);
   }
 
-  async update(id: string, body: BandInput, token: string): Promise<Band> {
+  async update(id: string, body: UpdateBandInput, token: string): Promise<Band> {
     const band = this.httpService
       .put(
         `${process.env.BANDS_API}/${id}`,
         body,
         createAxiosConfigWithToken(token)
       )
-      .pipe(map(({ data }) => modifyEntityId<Band>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(band);
   }

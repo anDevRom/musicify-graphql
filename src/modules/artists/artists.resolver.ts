@@ -1,5 +1,5 @@
 import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
-import { ArtistInput, TokenContext } from "src/graphql";
+import { ArtistInput, CreateArtistInput, TokenContext, UpdateArtistInput } from "src/graphql";
 import { ArtistsService } from "./artists.service";
 
 @Resolver('Artist')
@@ -22,13 +22,18 @@ export class ArtistsResolver {
   }
 
   @ResolveField()
+  id(@Parent() artist: ArtistInput) {
+    return artist._id;
+  }
+
+  @ResolveField()
   async bands(@Parent() artist: ArtistInput) {
     return this.artistsService.getBands(artist.bandsIds);
   }
 
   @Mutation()
   async createArtist(
-    @Args('body') body: ArtistInput, 
+    @Args('body') body: CreateArtistInput, 
     @Context() context: TokenContext
   ) {
     return this.artistsService.create(body, context.token);
@@ -37,7 +42,7 @@ export class ArtistsResolver {
   @Mutation()
   async updateArtist(
     @Args('id') id: string, 
-    @Args('body') body: ArtistInput, 
+    @Args('body') body: UpdateArtistInput, 
     @Context() context: TokenContext
   ) {
     return this.artistsService.update(id, body, context.token);

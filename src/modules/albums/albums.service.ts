@@ -1,8 +1,8 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
-import { Album, AlbumInput, AlbumsCollection, Band, EntityDelete, Genre, Track } from "src/graphql";
-import { createAxiosConfigWithToken, createPaginationQuery, modifyCollectionEntitiesIds, modifyEntityId } from "src/utils";
+import { Album, AlbumsCollection, Band, CreateAlbumInput, EntityDelete, Genre, Track, UpdateAlbumInput } from "src/graphql";
+import { createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
 import { BandsService } from "../bands/bands.service";
 import { GenresService } from "../genres/genres.service";
 import { TracksService } from "../tracks/tracks.service";
@@ -19,7 +19,7 @@ export class AlbumsService {
   async findOne(id: string): Promise<Album> {
     const album = this.httpService
       .get(`${process.env.ALBUMS_API}/${id}`)
-      .pipe(map(({ data }) => modifyEntityId<Album>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(album);  
   }
@@ -27,7 +27,7 @@ export class AlbumsService {
   async findAll(limit: number, offset: number): Promise<AlbumsCollection> {
     const albums = this.httpService
       .get(process.env.ALBUMS_API + createPaginationQuery(limit, offset))
-      .pipe(map(({ data }) => modifyCollectionEntitiesIds<Album>(data)));
+      .pipe(map(({ data }) => (data)));
 
     return await lastValueFrom(albums);  
   }
@@ -50,26 +50,26 @@ export class AlbumsService {
     );
   }
 
-  async create(body: AlbumInput, token: string): Promise<Album> {
+  async create(body: CreateAlbumInput, token: string): Promise<Album> {
     const album = this.httpService
       .post(
         process.env.ALBUMS_API,
         body,
         createAxiosConfigWithToken(token)
       )
-      .pipe(map(({ data }) => modifyEntityId<Album>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(album);
   }
 
-  async update(id: string, body: AlbumInput, token: string): Promise<Album> {
+  async update(id: string, body: UpdateAlbumInput, token: string): Promise<Album> {
     const album = this.httpService
       .put(
         `${process.env.ALBUMS_API}/${id}`,
         body,
         createAxiosConfigWithToken(token)
       )
-      .pipe(map(({ data }) => modifyEntityId<Album>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(album);
   }

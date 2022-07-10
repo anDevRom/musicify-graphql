@@ -17,6 +17,27 @@ type Track {
 }
 
 input TrackInput {
+  _id: ID!
+  title: String!
+  albumId: String
+  artistsIds: [String]
+  bandsIds: [String]
+  duration: Int
+  released: Int
+  genresIds: [String]
+}
+
+input CreateTrackInput {
+  title: String!
+  albumId: String
+  artistsIds: [String]
+  bandsIds: [String]
+  duration: Int
+  released: Int
+  genresIds: [String]
+}
+
+input UpdateTrackInput {
   title: String
   albumId: String
   artistsIds: [String]
@@ -32,8 +53,8 @@ type Query {
 }
 
 type Mutation {
-  createTrack(body: TrackInput): Track
-  updateTrack(id: ID!, body: TrackInput): Track
+  createTrack(body: CreateTrackInput!): Track
+  updateTrack(id: ID!, body: UpdateTrackInput!): Track
   deleteTrack(id: ID!): EntityDelete
 }
 

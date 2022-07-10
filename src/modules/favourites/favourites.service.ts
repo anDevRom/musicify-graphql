@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { Artist, Band, Favourites, Genre, Track } from "src/graphql";
-import { modifyEntityId, createAxiosConfigWithToken } from "src/utils";
+import { createAxiosConfigWithToken } from "src/utils";
 import { lastValueFrom, map } from "rxjs";
 import { TracksService } from "../tracks/tracks.service";
 import { BandsService } from "../bands/bands.service";
@@ -24,7 +24,7 @@ export class FavouritesService {
         process.env.FAVOURITES_API,
         createAxiosConfigWithToken(token)
       )
-      .pipe(map(({ data }) => modifyEntityId<Favourites>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(favourites);  
   }
@@ -60,7 +60,7 @@ export class FavouritesService {
         { type, id },
         createAxiosConfigWithToken(token)
       )
-      .pipe(map(({ data }) => modifyEntityId<Favourites>(data)));
+      .pipe(map(({ data }) => data));
 
     return await lastValueFrom(favourites);
   }

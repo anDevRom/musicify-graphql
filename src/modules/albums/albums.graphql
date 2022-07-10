@@ -8,7 +8,7 @@ type AlbumsCollection {
 type Album {
   id: ID!
   name: String
-  released: Int
+  released: String
   artists: [Artist]
   bands: [Band]
   tracks: [Track]
@@ -17,8 +17,29 @@ type Album {
 }
 
 input AlbumInput {
+  _id: ID!
   name: String
-  released: Int
+  released: String
+  artistsIds: [String]
+  bandsIds: [String]
+  trackIds: [String]
+  genresIds: [String]
+  image: String
+}
+
+input CreateAlbumInput {
+  name: String!
+  released: String
+  artistsIds: [String]
+  bandsIds: [String]
+  trackIds: [String]
+  genresIds: [String]
+  image: String
+}
+
+input UpdateAlbumInput {
+  name: String
+  released: String
   artistsIds: [String]
   bandsIds: [String]
   trackIds: [String]
@@ -32,7 +53,7 @@ type Query {
 }
 
 type Mutation {
-  createAlbum(body: AlbumInput): Album
-  updateAlbum(id: ID!, body: AlbumInput): Album
+  createAlbum(body: CreateAlbumInput!): Album
+  updateAlbum(id: ID!, body: UpdateAlbumInput!): Album
   deleteAlbum(id: ID!): EntityDelete
 }

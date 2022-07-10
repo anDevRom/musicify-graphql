@@ -1,5 +1,5 @@
 import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
-import { TokenContext, TrackInput } from "src/graphql";
+import { CreateTrackInput, TokenContext, TrackInput, UpdateTrackInput } from "src/graphql";
 import { TracksService } from "./tracks.service";
 
 @Resolver('Track')
@@ -22,6 +22,11 @@ export class TracksResolver {
   }
 
   @ResolveField()
+  id(@Parent() track: TrackInput) {
+    return track._id;
+  }
+
+  @ResolveField()
   async artists(@Parent() track: TrackInput) {
     return this.tracksService.getArtists(track.artistsIds);
   }
@@ -38,7 +43,7 @@ export class TracksResolver {
 
   @Mutation()
   async createTrack(
-    @Args('body') body: TrackInput, 
+    @Args('body') body: CreateTrackInput, 
     @Context() context: TokenContext
   ) {
     return this.tracksService.create(body, context.token);
@@ -47,7 +52,7 @@ export class TracksResolver {
   @Mutation()
   async updateTrack(
     @Args('id') id: string, 
-    @Args('body') body: TrackInput, 
+    @Args('body') body: UpdateTrackInput, 
     @Context() context: TokenContext
   ) {
     return this.tracksService.update(id, body, context.token);

@@ -8,6 +8,7 @@ type Favourites {
 }
 
 input FavouritesInput {
+  _id: ID!
   userId: String
   bandsIds: [String]
   genresIds: [String]
@@ -16,8 +17,8 @@ input FavouritesInput {
 }
 
 input AddFavourite {
-  type: String
-  id: String
+  type: String!
+  id: String!
 }
 
 type Query {

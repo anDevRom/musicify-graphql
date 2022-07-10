@@ -14,6 +14,11 @@ export class FavouritesResolver {
   }
 
   @ResolveField()
+  id(@Parent() favourites: FavouritesInput) {
+    return favourites._id;
+  }
+
+  @ResolveField()
   async bands(@Parent() favourites: FavouritesInput) {
     return this.favouritesService.getBands(favourites.bandsIds);
   }

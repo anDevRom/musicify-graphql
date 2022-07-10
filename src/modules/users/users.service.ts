@@ -2,7 +2,6 @@ import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
 import { CredentialsInput, TokenJwt, User, UserInput } from "src/graphql";
-import { modifyEntityId } from "src/utils";
 
 @Injectable()
 export class UsersService {
@@ -11,7 +10,7 @@ export class UsersService {
   async findOne(id: string): Promise<User> {
     const user = this.httpService
       .get(`${process.env.USERS_API}/${id}`)
-      .pipe(map(({data}) => modifyEntityId<User>(data)));
+      .pipe(map(({data}) => data));
 
     return await lastValueFrom(user);
   }
@@ -22,7 +21,7 @@ export class UsersService {
         `${process.env.USERS_API}/register`,
         body
       )
-      .pipe(map(({data}) => modifyEntityId<User>(data)));
+      .pipe(map(({data}) => data));
 
     return await lastValueFrom(response);  
   }
