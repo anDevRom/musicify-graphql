@@ -36,6 +36,19 @@ export interface BandInput {
     genresIds?: Nullable<Nullable<string>[]>;
 }
 
+export interface FavouritesInput {
+    userId?: Nullable<string>;
+    bandsIds?: Nullable<Nullable<string>[]>;
+    genresIds?: Nullable<Nullable<string>[]>;
+    artistsIds?: Nullable<Nullable<string>[]>;
+    tracksIds?: Nullable<Nullable<string>[]>;
+}
+
+export interface AddFavourite {
+    type?: Nullable<string>;
+    id?: Nullable<string>;
+}
+
 export interface GenreInput {
     name?: Nullable<string>;
     description?: Nullable<string>;
@@ -99,6 +112,7 @@ export interface IQuery {
     artists(): Nullable<ArtistsCollection> | Promise<Nullable<ArtistsCollection>>;
     band(id: string): Nullable<Band> | Promise<Nullable<Band>>;
     bands(): Nullable<BandsCollection> | Promise<Nullable<BandsCollection>>;
+    favourites(): Nullable<Favourites> | Promise<Nullable<Favourites>>;
     genre(id: string): Nullable<Genre> | Promise<Nullable<Genre>>;
     genres(): Nullable<GenresCollection> | Promise<Nullable<GenresCollection>>;
     track(id: string): Nullable<Track> | Promise<Nullable<Track>>;
@@ -117,6 +131,10 @@ export interface IMutation {
     createBand(body?: Nullable<BandInput>): Nullable<Band> | Promise<Nullable<Band>>;
     updateBand(id: string, body?: Nullable<BandInput>): Nullable<Band> | Promise<Nullable<Band>>;
     deleteBand(id: string): Nullable<EntityDelete> | Promise<Nullable<EntityDelete>>;
+    addTrackToFavourites(id: string): Nullable<Favourites> | Promise<Nullable<Favourites>>;
+    addBandToFavourites(id: string): Nullable<Favourites> | Promise<Nullable<Favourites>>;
+    addArtistToFavourites(id: string): Nullable<Favourites> | Promise<Nullable<Favourites>>;
+    addGenreToFavourites(id: string): Nullable<Favourites> | Promise<Nullable<Favourites>>;
     createGenre(body?: Nullable<GenreInput>): Nullable<Genre> | Promise<Nullable<Genre>>;
     updateGenre(id: string, body?: Nullable<GenreInput>): Nullable<Genre> | Promise<Nullable<Genre>>;
     deleteGenre(id: string): Nullable<EntityDelete> | Promise<Nullable<EntityDelete>>;
