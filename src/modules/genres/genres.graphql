@@ -22,7 +22,7 @@ input GenreInput {
 
 type Query {
   genre(id: ID!): Genre
-  genres: GenresCollection
+  genres(limit: Int, offset: Int): GenresCollection
 }
 
 type Mutation {

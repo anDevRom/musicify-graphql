@@ -30,7 +30,7 @@ input ArtistInput {
 
 type Query {
   artist(id: ID!): Artist
-  artists: ArtistsCollection
+  artists(limit: Int, offset: Int): ArtistsCollection
 }
 
 type Mutation {

@@ -28,7 +28,7 @@ input TrackInput {
 
 type Query {
   track(id: ID!): Track
-  tracks: TracksCollection
+  tracks(limit: Int, offset: Int): TracksCollection
 }
 
 type Mutation {

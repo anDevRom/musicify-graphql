@@ -2,7 +2,7 @@ import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
 import { Album, AlbumInput, AlbumsCollection, Band, EntityDelete, Genre, Track } from "src/graphql";
-import { createAxiosConfigWithToken, modifyCollectionEntitiesIds, modifyEntityId } from "src/utils";
+import { createAxiosConfigWithToken, createPaginationQuery, modifyCollectionEntitiesIds, modifyEntityId } from "src/utils";
 import { BandsService } from "../bands/bands.service";
 import { GenresService } from "../genres/genres.service";
 import { TracksService } from "../tracks/tracks.service";
@@ -24,9 +24,9 @@ export class AlbumsService {
     return await lastValueFrom(album);  
   }
 
-  async findAll(): Promise<AlbumsCollection> {
+  async findAll(limit: number, offset: number): Promise<AlbumsCollection> {
     const albums = this.httpService
-      .get(process.env.ALBUMS_API)
+      .get(process.env.ALBUMS_API + createPaginationQuery(limit, offset))
       .pipe(map(({ data }) => modifyCollectionEntitiesIds<Album>(data)));
 
     return await lastValueFrom(albums);  

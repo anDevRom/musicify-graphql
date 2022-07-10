@@ -7,7 +7,7 @@ type Member {
   years: [String]
 }
 
-type MemberInput {
+input MemberInput {
   artist: ID!
   instrument: String
   years: [String]
@@ -39,7 +39,7 @@ input BandInput {
 
 type Query {
   band(id: ID!): Band
-  bands: BandsCollection
+  bands(limit: Int, offset: Int): BandsCollection
 }
 
 type Mutation {

@@ -29,3 +29,16 @@ export const createAxiosConfigWithToken = (token: string) => {
     }
   };
 };
+
+export const createPaginationQuery = (limit?: number, offset?: number) => {
+  if (!limit && !offset) {
+    return '';
+  }
+
+  const params = new URLSearchParams({ 
+    limit: String(limit), 
+    offset: String(offset) 
+  });
+
+  return `?${params.toString()}`;
+}

@@ -2,7 +2,7 @@ import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
 import { EntityDelete, Genre, GenreInput, GenresCollection } from "src/graphql";
-import { modifyCollectionEntitiesIds, modifyEntityId, createAxiosConfigWithToken } from "src/utils";
+import { modifyCollectionEntitiesIds, modifyEntityId, createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
 
 @Injectable()
 export class GenresService {
@@ -18,9 +18,9 @@ export class GenresService {
     return await lastValueFrom(genre);  
   }
 
-  async findAll(): Promise<GenresCollection> {
+  async findAll(limit: number, offset: number): Promise<GenresCollection> {
     const genres = this.httpService
-      .get(process.env.GENRES_API)
+      .get(process.env.GENRES_API + createPaginationQuery(limit, offset))
       .pipe(map(({ data }) => modifyCollectionEntitiesIds<Genre>(data)));
 
     return await lastValueFrom(genres);  

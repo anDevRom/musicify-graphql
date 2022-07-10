@@ -2,7 +2,7 @@ import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
 import { Artist, Band, EntityDelete, Genre, Track, TrackInput, TracksCollection } from "src/graphql";
-import { modifyCollectionEntitiesIds, modifyEntityId, createAxiosConfigWithToken } from "src/utils";
+import { modifyCollectionEntitiesIds, modifyEntityId, createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
 import { ArtistsService } from "../artists/artists.service";
 import { BandsService } from "../bands/bands.service";
 import { GenresService } from "../genres/genres.service";
@@ -24,9 +24,9 @@ export class TracksService {
     return await lastValueFrom(track);  
   }
 
-  async findAll(): Promise<TracksCollection> {
+  async findAll(limit: number, offset: number): Promise<TracksCollection> {
     const tracks = this.httpService
-      .get(process.env.TRACKS_API)
+      .get(process.env.TRACKS_API + createPaginationQuery(limit, offset))
       .pipe(map(({ data }) => modifyCollectionEntitiesIds<Track>(data)));
 
     return await lastValueFrom(tracks);  

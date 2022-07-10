@@ -14,8 +14,11 @@ export class ArtistsResolver {
   }
 
   @Query()
-  async artists() {
-    return this.artistsService.findAll();
+  async artists(
+    @Args('limit') limit: number, 
+    @Args('offset') offset: number
+  ) {
+    return this.artistsService.findAll(limit, offset);
   }
 
   @ResolveField()

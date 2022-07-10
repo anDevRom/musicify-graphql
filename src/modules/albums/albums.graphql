@@ -28,7 +28,7 @@ input AlbumInput {
 
 type Query {
   album(id: ID!): Album
-  albums: AlbumsCollection
+  albums(limit: Int, offset: Int): AlbumsCollection
 }
 
 type Mutation {

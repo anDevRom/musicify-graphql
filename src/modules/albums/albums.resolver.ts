@@ -13,8 +13,11 @@ export class AlbumsResolver {
   }
 
   @Query()
-  async albums() {
-    return this.albumsService.findAll();
+  async albums(
+    @Args('limit') limit: number, 
+    @Args('offset') offset: number
+  ) {
+    return this.albumsService.findAll(limit, offset);
   }
 
   @ResolveField()

@@ -14,8 +14,11 @@ export class GenresResolver {
   }
 
   @Query()
-  async genres() {
-    return this.genresService.findAll();
+  async genres(
+    @Args('limit') limit: number, 
+    @Args('offset') offset: number
+  ) {
+    return this.genresService.findAll(limit, offset);
   }
 
   @Mutation()

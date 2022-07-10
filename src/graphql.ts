@@ -28,6 +28,12 @@ export interface ArtistInput {
     instruments?: Nullable<Nullable<string>[]>;
 }
 
+export interface MemberInput {
+    artist: string;
+    instrument?: Nullable<string>;
+    years?: Nullable<Nullable<string>[]>;
+}
+
 export interface BandInput {
     name?: Nullable<string>;
     origin?: Nullable<string>;
@@ -107,16 +113,16 @@ export interface Album {
 
 export interface IQuery {
     album(id: string): Nullable<Album> | Promise<Nullable<Album>>;
-    albums(): Nullable<AlbumsCollection> | Promise<Nullable<AlbumsCollection>>;
+    albums(limit?: Nullable<number>, offset?: Nullable<number>): Nullable<AlbumsCollection> | Promise<Nullable<AlbumsCollection>>;
     artist(id: string): Nullable<Artist> | Promise<Nullable<Artist>>;
-    artists(): Nullable<ArtistsCollection> | Promise<Nullable<ArtistsCollection>>;
+    artists(limit?: Nullable<number>, offset?: Nullable<number>): Nullable<ArtistsCollection> | Promise<Nullable<ArtistsCollection>>;
     band(id: string): Nullable<Band> | Promise<Nullable<Band>>;
-    bands(): Nullable<BandsCollection> | Promise<Nullable<BandsCollection>>;
+    bands(limit?: Nullable<number>, offset?: Nullable<number>): Nullable<BandsCollection> | Promise<Nullable<BandsCollection>>;
     favourites(): Nullable<Favourites> | Promise<Nullable<Favourites>>;
     genre(id: string): Nullable<Genre> | Promise<Nullable<Genre>>;
-    genres(): Nullable<GenresCollection> | Promise<Nullable<GenresCollection>>;
+    genres(limit?: Nullable<number>, offset?: Nullable<number>): Nullable<GenresCollection> | Promise<Nullable<GenresCollection>>;
     track(id: string): Nullable<Track> | Promise<Nullable<Track>>;
-    tracks(): Nullable<TracksCollection> | Promise<Nullable<TracksCollection>>;
+    tracks(limit?: Nullable<number>, offset?: Nullable<number>): Nullable<TracksCollection> | Promise<Nullable<TracksCollection>>;
     user(id: string): Nullable<User> | Promise<Nullable<User>>;
     jwt(creds?: Nullable<CredentialsInput>): Nullable<TokenJwt> | Promise<Nullable<TokenJwt>>;
 }
@@ -168,12 +174,6 @@ export interface Member {
     firstName?: Nullable<string>;
     secondName?: Nullable<string>;
     middleName?: Nullable<string>;
-    instrument?: Nullable<string>;
-    years?: Nullable<Nullable<string>[]>;
-}
-
-export interface MemberInput {
-    artist: string;
     instrument?: Nullable<string>;
     years?: Nullable<Nullable<string>[]>;
 }
