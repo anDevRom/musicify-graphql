@@ -40,7 +40,7 @@ export class BandsService {
 
     return members.map((member, idx) => {
       return {
-        id: member.id,
+        id: rawMembers[idx].artist,
         firstName: member.firstName,
         secondName: member.secondName,
         middleName: member.middleName,

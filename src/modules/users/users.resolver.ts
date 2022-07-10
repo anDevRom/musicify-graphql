@@ -1,5 +1,5 @@
 import { Args, Mutation, Resolver, Query, ResolveField, Parent } from "@nestjs/graphql";
-import { CredentialsInput, UserInput } from "src/graphql";
+import { CreateUserInput, CredentialsInput, UserInput } from "src/graphql";
 import { UsersService } from "./users.service";
 
 @Resolver('User')
@@ -22,7 +22,7 @@ export class UsersResolver {
   }
 
   @Mutation()
-  async register(@Args('body') body: UserInput) {
+  async register(@Args('body') body: CreateUserInput) {
     return this.usersService.create(body);
   }
 }

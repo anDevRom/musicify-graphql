@@ -9,6 +9,7 @@ import { ArtistsModule } from "./modules/artists/artists.module";
 import { GenresModule } from "./modules/genres/genres.module";
 import { TracksModule } from "./modules/tracks/tracks.module";
 import { BandsModule } from "./modules/bands/bands.module";
+import { FavouritesModule } from "./modules/favourites/favourites.module";
 
 @Module({
   imports: [
@@ -28,11 +29,12 @@ import { BandsModule } from "./modules/bands/bands.module";
       }
     }),
     UsersModule,
+    AlbumsModule,
     ArtistsModule,
+    BandsModule,
+    FavouritesModule,
     GenresModule,
     TracksModule,
-    BandsModule,
-    AlbumsModule,
   ]
 })
 export class AppModule {}

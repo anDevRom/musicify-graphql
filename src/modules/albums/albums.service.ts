@@ -1,8 +1,9 @@
 import { HttpService } from "@nestjs/axios";
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
-import { Album, AlbumsCollection, Band, CreateAlbumInput, EntityDelete, Genre, Track, UpdateAlbumInput } from "src/graphql";
+import { Album, AlbumsCollection, Artist, Band, CreateAlbumInput, EntityDelete, Genre, Track, UpdateAlbumInput } from "src/graphql";
 import { createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
+import { ArtistsService } from "../artists/artists.service";
 import { BandsService } from "../bands/bands.service";
 import { GenresService } from "../genres/genres.service";
 import { TracksService } from "../tracks/tracks.service";
@@ -11,8 +12,10 @@ import { TracksService } from "../tracks/tracks.service";
 export class AlbumsService {
   constructor(
     private httpService: HttpService,
+    private artistsService: ArtistsService,
     private bandsService: BandsService,
     private genresService: GenresService,
+    @Inject(forwardRef(() => TracksService))
     private tracksService: TracksService  
   ) {}
 
@@ -21,7 +24,7 @@ export class AlbumsService {
       .get(`${process.env.ALBUMS_API}/${id}`)
       .pipe(map(({ data }) => data));
 
-    return await lastValueFrom(album);  
+    return await lastValueFrom(album);
   }
 
   async findAll(limit: number, offset: number): Promise<AlbumsCollection> {
@@ -29,7 +32,13 @@ export class AlbumsService {
       .get(process.env.ALBUMS_API + createPaginationQuery(limit, offset))
       .pipe(map(({ data }) => (data)));
 
-    return await lastValueFrom(albums);  
+    return await lastValueFrom(albums);
+  }
+
+  async getArtists(ids: string[]): Promise<Artist[]> {
+    return await Promise.all(
+      ids.map(id => this.artistsService.findOne(id))
+    );
   }
 
   async getBands(ids: string[]): Promise<Band[]> {

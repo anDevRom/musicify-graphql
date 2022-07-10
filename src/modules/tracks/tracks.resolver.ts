@@ -27,6 +27,11 @@ export class TracksResolver {
   }
 
   @ResolveField()
+  async album(@Parent() album: TrackInput) {
+    return this.tracksService.getAlbum(album.albumId);
+  }
+
+  @ResolveField()
   async artists(@Parent() track: TrackInput) {
     return this.tracksService.getArtists(track.artistsIds);
   }

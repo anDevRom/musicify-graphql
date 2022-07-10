@@ -8,7 +8,7 @@ type AlbumsCollection {
 type Album {
   id: ID!
   name: String
-  released: String
+  released: Int
   artists: [Artist]
   bands: [Band]
   tracks: [Track]
@@ -19,7 +19,7 @@ type Album {
 input AlbumInput {
   _id: ID!
   name: String
-  released: String
+  released: Int
   artistsIds: [String]
   bandsIds: [String]
   trackIds: [String]
@@ -29,7 +29,7 @@ input AlbumInput {
 
 input CreateAlbumInput {
   name: String!
-  released: String
+  released: Int
   artistsIds: [String]
   bandsIds: [String]
   trackIds: [String]
@@ -39,7 +39,7 @@ input CreateAlbumInput {
 
 input UpdateAlbumInput {
   name: String
-  released: String
+  released: Int
   artistsIds: [String]
   bandsIds: [String]
   trackIds: [String]

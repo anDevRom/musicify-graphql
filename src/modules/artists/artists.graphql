@@ -35,7 +35,7 @@ input CreateArtistInput {
   middleName: String
   birthDate: String
   birthPlace: String
-  country: String
+  country: String!
   bandsIds: [String]
   instruments: [String]
 }
@@ -58,6 +58,6 @@ type Query {
 
 type Mutation {
   createArtist(body: CreateArtistInput!): Artist
-  updateArtist(body: UpdateArtistInput!): Artist
+  updateArtist(id: ID!, body: UpdateArtistInput!): Artist
   deleteArtist(id: ID!): EntityDelete
 }

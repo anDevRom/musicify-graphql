@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
-import { CredentialsInput, TokenJwt, User, UserInput } from "src/graphql";
+import { CreateUserInput, CredentialsInput, TokenJwt, User } from "src/graphql";
 
 @Injectable()
 export class UsersService {
@@ -15,7 +15,7 @@ export class UsersService {
     return await lastValueFrom(user);
   }
 
-  async create(body: UserInput): Promise<User> {
+  async create(body: CreateUserInput): Promise<User> {
     const response = this.httpService
       .post(
         `${process.env.USERS_API}/register`,

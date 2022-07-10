@@ -1,8 +1,9 @@
 import { HttpService } from "@nestjs/axios";
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
-import { Artist, Band, CreateTrackInput, EntityDelete, Genre, Track, TrackInput, TracksCollection, UpdateTrackInput } from "src/graphql";
+import { Album, Artist, Band, CreateTrackInput, EntityDelete, Genre, Track, TracksCollection, UpdateTrackInput } from "src/graphql";
 import { createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
+import { AlbumsService } from "../albums/albums.service";
 import { ArtistsService } from "../artists/artists.service";
 import { BandsService } from "../bands/bands.service";
 import { GenresService } from "../genres/genres.service";
@@ -11,9 +12,11 @@ import { GenresService } from "../genres/genres.service";
 export class TracksService {
   constructor(
     private httpService: HttpService,
+    @Inject(forwardRef(() => AlbumsService))
+    private albumService: AlbumsService,
     private artistsService: ArtistsService,
     private bandsService: BandsService,
-    private genresService: GenresService
+    private genresService: GenresService,
   ) {}
 
   async findOne(id: string): Promise<Track> {
@@ -30,6 +33,10 @@ export class TracksService {
       .pipe(map(({ data }) => data));
 
     return await lastValueFrom(tracks);  
+  }
+
+  async getAlbum(id: string): Promise<Album> {
+    return await this.albumService.findOne(id);
   }
 
   async getArtists(ids: string[]): Promise<Artist[]> {

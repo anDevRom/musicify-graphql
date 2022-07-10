@@ -8,8 +8,8 @@ import { BandsService } from "./bands.service";
 @Module({
   imports: [
     HttpModule, 
+    forwardRef(() => ArtistsModule),
     GenresModule,
-    forwardRef(() => ArtistsModule)
   ],
   providers: [BandsService, BandsResolver],
   exports: [BandsService]

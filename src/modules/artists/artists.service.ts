@@ -1,5 +1,5 @@
 import { HttpService } from "@nestjs/axios";
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
 import { Artist, ArtistsCollection, Band, CreateArtistInput, EntityDelete, UpdateArtistInput } from "src/graphql";
 import { createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
@@ -9,6 +9,7 @@ import { BandsService } from "../bands/bands.service";
 export class ArtistsService {
   constructor(
     private httpService: HttpService,
+    @Inject(forwardRef(() => BandsService))
     private bandsService: BandsService
   ) {}
 

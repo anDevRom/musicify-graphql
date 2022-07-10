@@ -10,10 +10,10 @@ import { FavouritesService } from "./favourites.service";
 @Module({
   imports: [
     HttpModule, 
-    TracksModule, 
-    BandsModule, 
     ArtistsModule, 
-    GenresModule
+    BandsModule, 
+    GenresModule,
+    TracksModule, 
   ],
   providers: [FavouritesService, FavouritesResolver],
 })
