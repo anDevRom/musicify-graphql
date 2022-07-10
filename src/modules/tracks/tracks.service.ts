@@ -84,7 +84,7 @@ export class TracksService {
   async delete(id: string, token: string): Promise<EntityDelete> {
     const result = this.httpService
       .delete(
-        `${process.env.GENRES_API}/${id}`,
+        `${process.env.TRACKS_API}/${id}`,
         createAxiosConfigWithToken(token)
       )
       .pipe(map(({ data }) => data));
