@@ -31,7 +31,7 @@ export interface ArtistInput {
 export interface BandInput {
     name?: Nullable<string>;
     origin?: Nullable<string>;
-    membersIds?: Nullable<Nullable<string>[]>;
+    members?: Nullable<Nullable<MemberInput>[]>;
     website?: Nullable<string>;
     genresIds?: Nullable<Nullable<string>[]>;
 }
@@ -168,6 +168,12 @@ export interface Member {
     firstName?: Nullable<string>;
     secondName?: Nullable<string>;
     middleName?: Nullable<string>;
+    instrument?: Nullable<string>;
+    years?: Nullable<Nullable<string>[]>;
+}
+
+export interface MemberInput {
+    artist: string;
     instrument?: Nullable<string>;
     years?: Nullable<Nullable<string>[]>;
 }

@@ -19,6 +19,11 @@ export class BandsResolver {
   }
 
   @ResolveField()
+  async members(@Parent() band: BandInput) {
+    return this.bandsService.getMembers(band.members);
+  }
+
+  @ResolveField()
   async genres(@Parent() band: BandInput) {
     return this.bandsService.getGenres(band.genresIds);
   }

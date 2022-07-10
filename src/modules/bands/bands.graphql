@@ -7,6 +7,12 @@ type Member {
   years: [String]
 }
 
+type MemberInput {
+  artist: ID!
+  instrument: String
+  years: [String]
+}
+
 type BandsCollection {
   items: [Band]!
   limit: Int!
@@ -26,7 +32,7 @@ type Band {
 input BandInput {
   name: String
   origin: String
-  membersIds: [String]
+  members: [MemberInput]
   website: String
   genresIds: [String]
 }

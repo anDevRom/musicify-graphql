@@ -1,15 +1,17 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import { lastValueFrom, map } from "rxjs";
-import { Band, BandInput, BandsCollection, EntityDelete, Genre } from "src/graphql";
+import { Artist, Band, BandInput, BandsCollection, EntityDelete, Genre, Member, MemberInput } from "src/graphql";
 import { modifyCollectionEntitiesIds, modifyEntityId, createAxiosConfigWithToken } from "src/utils";
+import { ArtistsService } from "../artists/artists.service";
 import { GenresService } from "../genres/genres.service";
 
 @Injectable()
 export class BandsService {
   constructor(
     private httpService: HttpService,
-    private genresService: GenresService
+    private genresService: GenresService,
+    private artistsService: ArtistsService,
   ) {}
 
   async findOne(id: string): Promise<Band> {
@@ -26,6 +28,25 @@ export class BandsService {
       .pipe(map(({ data }) => modifyCollectionEntitiesIds<Band>(data)));
 
     return await lastValueFrom(bands);  
+  }
+
+  async getMembers(rawMembers: MemberInput[]): Promise<Member[]> {
+    const members: Artist[] = await Promise.all(
+      rawMembers.map(
+        member => this.artistsService.findOne(member.artist)
+      )
+    );
+
+    return members.map((member, idx) => {
+      return {
+        id: member.id,
+        firstName: member.firstName,
+        secondName: member.secondName,
+        middleName: member.middleName,
+        instrument: rawMembers[idx].instrument,
+        years: rawMembers[idx].years
+      };
+    });
   }
 
   async getGenres(ids: string[]): Promise<Genre[]> {
