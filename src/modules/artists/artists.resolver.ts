@@ -1,12 +1,23 @@
-import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
-import { ArtistInput, CreateArtistInput, TokenContext, UpdateArtistInput } from "src/graphql";
-import { ArtistsService } from "./artists.service";
+import {
+  Args,
+  Context,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
+import {
+  ArtistInput,
+  CreateArtistInput,
+  TokenContext,
+  UpdateArtistInput,
+} from 'src/graphql';
+import { ArtistsService } from './artists.service';
 
 @Resolver('Artist')
 export class ArtistsResolver {
-  constructor(
-    private artistsService: ArtistsService
-  ) {}
+  constructor(private artistsService: ArtistsService) {}
 
   @Query()
   async artist(@Args('id') id: string) {
@@ -14,10 +25,7 @@ export class ArtistsResolver {
   }
 
   @Query()
-  async artists(
-    @Args('limit') limit: number, 
-    @Args('offset') offset: number
-  ) {
+  async artists(@Args('limit') limit: number, @Args('offset') offset: number) {
     return this.artistsService.findAll(limit, offset);
   }
 
@@ -33,26 +41,23 @@ export class ArtistsResolver {
 
   @Mutation()
   async createArtist(
-    @Args('body') body: CreateArtistInput, 
-    @Context() context: TokenContext
+    @Args('body') body: CreateArtistInput,
+    @Context() context: TokenContext,
   ) {
     return this.artistsService.create(body, context.token);
   }
 
   @Mutation()
   async updateArtist(
-    @Args('id') id: string, 
-    @Args('body') body: UpdateArtistInput, 
-    @Context() context: TokenContext
+    @Args('id') id: string,
+    @Args('body') body: UpdateArtistInput,
+    @Context() context: TokenContext,
   ) {
     return this.artistsService.update(id, body, context.token);
   }
 
   @Mutation()
-  async deleteArtist(
-    @Args('id') id: string, 
-    @Context() context: TokenContext
-  ) {
+  async deleteArtist(@Args('id') id: string, @Context() context: TokenContext) {
     return this.artistsService.delete(id, context.token);
   }
 }

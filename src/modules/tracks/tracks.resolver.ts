@@ -1,12 +1,23 @@
-import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
-import { CreateTrackInput, TokenContext, TrackInput, UpdateTrackInput } from "src/graphql";
-import { TracksService } from "./tracks.service";
+import {
+  Args,
+  Context,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
+import {
+  CreateTrackInput,
+  TokenContext,
+  TrackInput,
+  UpdateTrackInput,
+} from 'src/graphql';
+import { TracksService } from './tracks.service';
 
 @Resolver('Track')
 export class TracksResolver {
-  constructor(
-    private tracksService: TracksService
-  ) {}
+  constructor(private tracksService: TracksService) {}
 
   @Query()
   async track(@Args('id') id: string) {
@@ -14,10 +25,7 @@ export class TracksResolver {
   }
 
   @Query()
-  async tracks(
-    @Args('limit') limit: number, 
-    @Args('offset') offset: number
-  ) {
+  async tracks(@Args('limit') limit: number, @Args('offset') offset: number) {
     return this.tracksService.findAll(limit, offset);
   }
 
@@ -48,26 +56,23 @@ export class TracksResolver {
 
   @Mutation()
   async createTrack(
-    @Args('body') body: CreateTrackInput, 
-    @Context() context: TokenContext
+    @Args('body') body: CreateTrackInput,
+    @Context() context: TokenContext,
   ) {
     return this.tracksService.create(body, context.token);
   }
 
   @Mutation()
   async updateTrack(
-    @Args('id') id: string, 
-    @Args('body') body: UpdateTrackInput, 
-    @Context() context: TokenContext
+    @Args('id') id: string,
+    @Args('body') body: UpdateTrackInput,
+    @Context() context: TokenContext,
   ) {
     return this.tracksService.update(id, body, context.token);
   }
 
   @Mutation()
-  async deleteTrack(
-    @Args('id') id: string, 
-    @Context() context: TokenContext
-  ) {
+  async deleteTrack(@Args('id') id: string, @Context() context: TokenContext) {
     return this.tracksService.delete(id, context.token);
   }
 }

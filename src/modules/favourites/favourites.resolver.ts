@@ -1,12 +1,18 @@
-import { Resolver, Query, Context, ResolveField, Mutation, Parent, Args } from "@nestjs/graphql";
-import { FavouritesInput, TokenContext } from "src/graphql";
-import { FavouritesService } from "./favourites.service";
+import {
+  Resolver,
+  Query,
+  Context,
+  ResolveField,
+  Mutation,
+  Parent,
+  Args,
+} from '@nestjs/graphql';
+import { FavouritesInput, TokenContext } from 'src/graphql';
+import { FavouritesService } from './favourites.service';
 
 @Resolver('Favourites')
 export class FavouritesResolver {
-  constructor(
-    private favouritesService: FavouritesService
-  ) {}
+  constructor(private favouritesService: FavouritesService) {}
 
   @Query()
   async favourites(@Context() context: TokenContext) {
@@ -40,32 +46,32 @@ export class FavouritesResolver {
 
   @Mutation()
   async addTrackToFavourites(
-    @Args('id') id: string, 
-    @Context() context: TokenContext
+    @Args('id') id: string,
+    @Context() context: TokenContext,
   ) {
     return this.favouritesService.add('tracks', id, context.token);
   }
 
   @Mutation()
   async addBandToFavourites(
-    @Args('id') id: string, 
-    @Context() context: TokenContext
+    @Args('id') id: string,
+    @Context() context: TokenContext,
   ) {
     return this.favouritesService.add('bands', id, context.token);
   }
 
   @Mutation()
   async addArtistToFavourites(
-    @Args('id') id: string, 
-    @Context() context: TokenContext
+    @Args('id') id: string,
+    @Context() context: TokenContext,
   ) {
     return this.favouritesService.add('artists', id, context.token);
   }
 
   @Mutation()
   async addGenreToFavourites(
-    @Args('id') id: string, 
-    @Context() context: TokenContext
+    @Args('id') id: string,
+    @Context() context: TokenContext,
   ) {
     return this.favouritesService.add('genres', id, context.token);
   }

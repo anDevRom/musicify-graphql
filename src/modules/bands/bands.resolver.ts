@@ -1,12 +1,23 @@
-import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
-import { BandInput, CreateBandInput, TokenContext, UpdateBandInput } from "src/graphql";
-import { BandsService } from "./bands.service";
+import {
+  Args,
+  Context,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
+import {
+  BandInput,
+  CreateBandInput,
+  TokenContext,
+  UpdateBandInput,
+} from 'src/graphql';
+import { BandsService } from './bands.service';
 
 @Resolver('Band')
 export class BandsResolver {
-  constructor(
-    private bandsService: BandsService
-  ) {}
+  constructor(private bandsService: BandsService) {}
 
   @Query()
   async band(@Args('id') id: string) {
@@ -14,10 +25,7 @@ export class BandsResolver {
   }
 
   @Query()
-  async bands(
-    @Args('limit') limit: number, 
-    @Args('offset') offset: number
-  ) {
+  async bands(@Args('limit') limit: number, @Args('offset') offset: number) {
     return this.bandsService.findAll(limit, offset);
   }
 
@@ -38,26 +46,23 @@ export class BandsResolver {
 
   @Mutation()
   async createBand(
-    @Args('body') body: CreateBandInput, 
-    @Context() context: TokenContext
+    @Args('body') body: CreateBandInput,
+    @Context() context: TokenContext,
   ) {
     return this.bandsService.create(body, context.token);
   }
 
   @Mutation()
   async updateBand(
-    @Args('id') id: string, 
-    @Args('body') body: UpdateBandInput, 
-    @Context() context: TokenContext
+    @Args('id') id: string,
+    @Args('body') body: UpdateBandInput,
+    @Context() context: TokenContext,
   ) {
     return this.bandsService.update(id, body, context.token);
   }
 
   @Mutation()
-  async deleteBand(
-    @Args('id') id: string, 
-    @Context() context: TokenContext
-  ) {
+  async deleteBand(@Args('id') id: string, @Context() context: TokenContext) {
     return this.bandsService.delete(id, context.token);
   }
 }

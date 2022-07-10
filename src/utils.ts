@@ -1,8 +1,8 @@
 export const createAxiosConfigWithToken = (token: string) => {
   return {
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   };
 };
 

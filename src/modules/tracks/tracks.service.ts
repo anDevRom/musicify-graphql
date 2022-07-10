@@ -1,12 +1,22 @@
-import { HttpService } from "@nestjs/axios";
-import { forwardRef, Inject, Injectable } from "@nestjs/common";
-import { lastValueFrom, map } from "rxjs";
-import { Album, Artist, Band, CreateTrackInput, EntityDelete, Genre, Track, TracksCollection, UpdateTrackInput } from "src/graphql";
-import { createAxiosConfigWithToken, createPaginationQuery } from "src/utils";
-import { AlbumsService } from "../albums/albums.service";
-import { ArtistsService } from "../artists/artists.service";
-import { BandsService } from "../bands/bands.service";
-import { GenresService } from "../genres/genres.service";
+import { HttpService } from '@nestjs/axios';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { lastValueFrom, map } from 'rxjs';
+import {
+  Album,
+  Artist,
+  Band,
+  CreateTrackInput,
+  EntityDelete,
+  Genre,
+  Track,
+  TracksCollection,
+  UpdateTrackInput,
+} from 'src/graphql';
+import { createAxiosConfigWithToken, createPaginationQuery } from 'src/utils';
+import { AlbumsService } from '../albums/albums.service';
+import { ArtistsService } from '../artists/artists.service';
+import { BandsService } from '../bands/bands.service';
+import { GenresService } from '../genres/genres.service';
 
 @Injectable()
 export class TracksService {
@@ -24,7 +34,7 @@ export class TracksService {
       .get(`${process.env.TRACKS_API}/${id}`)
       .pipe(map(({ data }) => data));
 
-    return await lastValueFrom(track);  
+    return await lastValueFrom(track);
   }
 
   async findAll(limit: number, offset: number): Promise<TracksCollection> {
@@ -32,7 +42,7 @@ export class TracksService {
       .get(process.env.TRACKS_API + createPaginationQuery(limit, offset))
       .pipe(map(({ data }) => data));
 
-    return await lastValueFrom(tracks);  
+    return await lastValueFrom(tracks);
   }
 
   async getAlbum(id: string): Promise<Album> {
@@ -40,41 +50,35 @@ export class TracksService {
   }
 
   async getArtists(ids: string[]): Promise<Artist[]> {
-    return await Promise.all(
-      ids.map(id => this.artistsService.findOne(id))
-    );
+    return await Promise.all(ids.map((id) => this.artistsService.findOne(id)));
   }
 
   async getBands(ids: string[]): Promise<Band[]> {
-    return await Promise.all(
-      ids.map(id => this.bandsService.findOne(id))
-    );
+    return await Promise.all(ids.map((id) => this.bandsService.findOne(id)));
   }
 
   async getGenres(ids: string[]): Promise<Genre[]> {
-    return await Promise.all(
-      ids.map(id => this.genresService.findOne(id))
-    );
+    return await Promise.all(ids.map((id) => this.genresService.findOne(id)));
   }
 
   async create(body: CreateTrackInput, token: string): Promise<Track> {
     const track = this.httpService
-      .post(
-        process.env.TRACKS_API,
-        body,
-        createAxiosConfigWithToken(token)
-      )
+      .post(process.env.TRACKS_API, body, createAxiosConfigWithToken(token))
       .pipe(map(({ data }) => data));
 
     return await lastValueFrom(track);
   }
 
-  async update(id: string, body: UpdateTrackInput, token: string): Promise<Track> {
+  async update(
+    id: string,
+    body: UpdateTrackInput,
+    token: string,
+  ): Promise<Track> {
     const track = this.httpService
       .put(
         `${process.env.TRACKS_API}/${id}`,
         body,
-        createAxiosConfigWithToken(token)
+        createAxiosConfigWithToken(token),
       )
       .pipe(map(({ data }) => data));
 
@@ -85,10 +89,10 @@ export class TracksService {
     const result = this.httpService
       .delete(
         `${process.env.TRACKS_API}/${id}`,
-        createAxiosConfigWithToken(token)
+        createAxiosConfigWithToken(token),
       )
       .pipe(map(({ data }) => data));
 
-    return await lastValueFrom(result);  
+    return await lastValueFrom(result);
   }
 }
