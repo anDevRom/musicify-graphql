@@ -31,14 +31,15 @@ export const createAxiosConfigWithToken = (token: string) => {
 };
 
 export const createPaginationQuery = (limit?: number, offset?: number) => {
-  if (!limit && !offset) {
-    return '';
+  const params = [];
+
+  if (typeof limit === 'number') {
+    params.push(`limit=${limit}`);
   }
 
-  const params = new URLSearchParams({ 
-    limit: String(limit), 
-    offset: String(offset) 
-  });
+  if (typeof offset === 'number') {
+    params.push(`offset=${offset}`);
+  }
 
-  return `?${params.toString()}`;
-}
+  return params.length ? `?${params.join('&')}` : '';
+};
