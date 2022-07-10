@@ -60,6 +60,11 @@ export interface UserInput {
     email: string;
 }
 
+export interface CredentialsInput {
+    email?: Nullable<string>;
+    password?: Nullable<string>;
+}
+
 export interface EntityDelete {
     acknowledged?: Nullable<boolean>;
     deletedCount?: Nullable<number>;
@@ -98,6 +103,8 @@ export interface IQuery {
     genres(): Nullable<GenresCollection> | Promise<Nullable<GenresCollection>>;
     track(id: string): Nullable<Track> | Promise<Nullable<Track>>;
     tracks(): Nullable<TracksCollection> | Promise<Nullable<TracksCollection>>;
+    user(id: string): Nullable<User> | Promise<Nullable<User>>;
+    jwt(creds?: Nullable<CredentialsInput>): Nullable<TokenJwt> | Promise<Nullable<TokenJwt>>;
 }
 
 export interface IMutation {
@@ -211,6 +218,10 @@ export interface User {
     lastName?: Nullable<string>;
     password?: Nullable<string>;
     email: string;
+}
+
+export interface TokenJwt {
+    jwt?: Nullable<string>;
 }
 
 type Nullable<T> = T | null;
