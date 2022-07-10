@@ -1,0 +1,40 @@
+type User {
+  id: ID!
+  firstName: String
+  lastName: String
+  password: String
+  email: String!
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+  password: String!
+  email: String!
+}
+
+input UserInput {
+  _id: ID!
+  firstName: String!
+  lastName: String!
+  password: String!
+  email: String!
+}
+
+input CredentialsInput {
+  email: String!
+  password: String!
+}
+
+type TokenJwt {
+  jwt: String
+}
+
+type Query {
+  user(id: ID!): User
+  jwt(creds: CredentialsInput!): TokenJwt
+}
+
+type Mutation {
+  register(body: CreateUserInput!): User
+}

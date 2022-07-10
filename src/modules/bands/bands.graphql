@@ -1,0 +1,66 @@
+type Member {
+  id: ID!
+  firstName: String
+  secondName: String
+  middleName: String
+  instrument: String
+  years: [String]
+}
+
+input MemberInput {
+  artist: ID!
+  instrument: String
+  years: [String]
+}
+
+type BandsCollection {
+  items: [Band]!
+  limit: Int!
+  offset: Int!
+  total: Int!
+}
+
+type Band {
+  id: ID!
+  name: String
+  origin: String
+  members: [Member]
+  website: String
+  genres: [Genre]
+}
+
+input BandInput {
+  _id: ID!
+  name: String
+  origin: String
+  members: [MemberInput]
+  website: String
+  genresIds: [String]
+}
+
+input CreateBandInput {
+  name: String!
+  origin: String
+  members: [MemberInput]
+  website: String
+  genresIds: [String]
+}
+
+input UpdateBandInput {
+  name: String
+  origin: String
+  members: [MemberInput]
+  website: String
+  genresIds: [String]
+}
+
+type Query {
+  band(id: ID!): Band
+  bands(limit: Int, offset: Int): BandsCollection
+}
+
+type Mutation {
+  createBand(body: CreateBandInput!): Band
+  updateBand(id: ID!, body: UpdateBandInput!): Band
+  deleteBand(id: ID!): EntityDelete
+}
